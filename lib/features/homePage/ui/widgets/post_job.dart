@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:job_portel/features/homePage/ui/widgets/job_salary.dart';
 import 'package:job_portel/features/utils/texts.dart';
 
 class PostJob extends StatelessWidget {
@@ -8,7 +10,8 @@ class PostJob extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
         padding: const EdgeInsets.only(top: 20, left: 20),
         child: Text(
@@ -38,45 +41,58 @@ class PostJob extends StatelessWidget {
         ),
       ),
       Container(
-        margin: EdgeInsets.only(left: 20,right: 20,top: 10),
+        margin: EdgeInsets.only(left: 20, right: 20, top: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                "Use clear, specific terms that describe the primary function of the job. Avoid vague or overly broad titles.",
-            style: Texts().Stext,),
-            const SizedBox(height: 10,),
+              "Use clear, specific terms that describe the primary function of the job. Avoid vague or overly broad titles.",
+              style: Texts().Stext,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             Row(
               children: [
-                Text("Good",
-                style: Texts().Stext.copyWith(
-                  color: Colors.green,
-                  fontWeight: FontWeight.w600
-                ),),
-                Text(": Software Engineer",
-                style: Texts().Stext,)
+                Text(
+                  "Good",
+                  style: Texts().Stext.copyWith(
+                      color: Colors.green, fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  ": Software Engineer",
+                  style: Texts().Stext,
+                )
               ],
             ),
             Row(
               children: [
-                Text("Poor",
-                style: Texts().Stext.copyWith(
-                  color: Colors.red,
-                  fontWeight: FontWeight.w600
-                ),),
-                Text(": Engineer",
-                style: Texts().Stext,)
+                Text(
+                  "Poor",
+                  style: Texts()
+                      .Stext
+                      .copyWith(color: Colors.red, fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  ": Engineer",
+                  style: Texts().Stext,
+                )
               ],
             ),
-
-            Positioned(
-                child: ElevatedButton(onPressed: (){},
-                    child: const Text("Next")))
-
-
+            Align(
+                 alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.deepPurple.withOpacity(0.9))
+                    ),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                      JobSalary()));
+                    }, child:   Text("Next",
+                style: Texts().Stext.copyWith(color: Colors.white),)))
           ],
         ),
-      )
+      ),
     ]));
   }
 }
