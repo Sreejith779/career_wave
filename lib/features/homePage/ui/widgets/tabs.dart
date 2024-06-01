@@ -29,7 +29,8 @@ Uint8List? image;
       physics: NeverScrollableScrollPhysics(),
       children: [
     JobRole(),
-    CompanyDetails()
+    CompanyDetails(),
+        JobDescription()
       ],
     );
 
@@ -213,6 +214,64 @@ Row(
                   }, child:   Text("Next",
                 style: Texts().Stext.copyWith(color: Colors.white),)))
         ],
+      ),
+    );
+  }
+
+  Widget JobDescription(){
+    return SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      child: Container(
+        margin: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Textname("Job location"),
+            const SizedBox(height: 10,),
+            TextField(
+              decoration: InputDecoration(
+                hintText: "location",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15)
+                )
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Textname("Salary"),
+            const SizedBox(height: 10,),
+            TextField(
+              decoration: InputDecoration(
+                  hintText: "location",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15)
+                  )
+              ),
+            ),
+            Textname("Job Description"),
+            const SizedBox(height: 10,),
+            TextField(
+              minLines: 1,
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: "add description ",
+                border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15)
+                )
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Align(
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.green.withOpacity(0.8))
+                    ),
+                    onPressed: () {
+                      pageController.nextPage(duration: Duration(milliseconds: 200), curve: Curves.ease);
+                    }, child:   Text("Review Job",
+                  style: Texts().Stext.copyWith(color: Colors.white),)))
+          ],
+        ),
       ),
     );
   }
