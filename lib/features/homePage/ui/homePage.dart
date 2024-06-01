@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
                 child: TabBarView(
                   children: [
                     Center(child: Text("Available Jobs content")),
+
                     PostTabs()
                   ],
                 ),
