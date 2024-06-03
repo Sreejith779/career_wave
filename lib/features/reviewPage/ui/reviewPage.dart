@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class JobSalary extends StatelessWidget {
-  const JobSalary({super.key});
+class ReviewPage extends StatelessWidget {
+  const ReviewPage({super.key});
 
   @override
   Widget build(BuildContext context) {
