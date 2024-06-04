@@ -57,4 +57,9 @@ class StoreData {
     }
     return response;
   }
+
+
+  Stream<QuerySnapshot> getData() {
+    return _firestore.collection("jobPost").snapshots();
+  }
 }
