@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 class Texts{
 
   final  TextStyle Htext = TextStyle(
-    fontSize: 22,
-    fontWeight: FontWeight.w400,
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
     fontFamily:GoogleFonts.cabin().fontFamily,
     color: Colors.black.withOpacity(0.7)
   );
