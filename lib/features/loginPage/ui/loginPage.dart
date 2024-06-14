@@ -61,12 +61,13 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              bool isSignedIn = await FirebaseService().signInWithGoogle();
-                              if (isSignedIn) {
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Tabs()));
-                              } else {
-                                return;
-                              }
+                                  await FirebaseService().signInWithGoogle();
+
+                             await    Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Tabs()));
+
                             },
                             child: Center(
                               child: Container(
@@ -103,7 +104,11 @@ class _LoginPageState extends State<LoginPage> {
                             height: 10,
                           ),
                           InkWell(
-                            onTap: () async {},
+                            onTap: () async {
+
+                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
+                           Tabs()));
+                            },
                             child: Center(
                               child: Container(
                                 margin: EdgeInsets.only(bottom: 150),
