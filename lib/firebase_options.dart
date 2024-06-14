@@ -70,6 +70,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '926878754392',
     projectId: 'job-connect-822d3',
     storageBucket: 'job-connect-822d3.appspot.com',
+    androidClientId: '926878754392-p7brm3qmda5uk6e8aa8p58791ujjjbok.apps.googleusercontent.com',
+    iosClientId: '926878754392-clg4t7j1534dl113lbbovt6oli0k3g91.apps.googleusercontent.com',
     iosBundleId: 'com.example.jobPortel',
   );
+
 }

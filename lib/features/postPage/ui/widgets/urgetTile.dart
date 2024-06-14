@@ -21,7 +21,7 @@ class UrgentTile extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
 
-              color: Colors.grey.withOpacity(0.12),
+              color: Colors.green.withOpacity(0.1),
             ),
             margin: const EdgeInsets.all(10),
             child: Column(
@@ -35,13 +35,15 @@ class UrgentTile extends StatelessWidget {
                       ),
                     ),
                     Expanded(child: Text(data[index]['Job Role'],style: Texts().Stext.copyWith(
-                        fontWeight: FontWeight.w500
+                        fontWeight: FontWeight.w500,
+                      color: Colors.black.withOpacity(0.7)
                     ),))
                   ],
                 ),
                 Text("Rs ${data[index]['Salary']}",style: Texts().Stext.copyWith(
                     fontSize: 13,
-                    fontWeight: FontWeight.w500
+                    fontWeight: FontWeight.w500,
+                  color: Colors.black.withOpacity(0.6)
                 ),),
                 const Divider(
 
@@ -49,12 +51,13 @@ class UrgentTile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(data[index]['Company Name'],style: Texts().Htext.copyWith(fontSize: 16),),
+                    Text(data[index]['Company Name'],style: Texts().Htext.copyWith(fontSize: 16,
+                    color: Colors.black.withOpacity(0.7)),),
                     Container(
                       height: 25,
                       width: 60,
                       decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.2),
+                          color: Colors.white.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(15)
                       ),
                       child: Center(child: Text("Apply",style: Texts().Stext.copyWith(fontSize: 15,

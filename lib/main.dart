@@ -1,9 +1,9 @@
  import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:job_portel/features/loginPage/ui/loginPage.dart';
 import 'package:job_portel/features/tabs/tabs.dart';
 
-import 'features/homePage/ui/homePage.dart';
-import 'features/reviewPage/ui/reviewPage.dart';
+
 import 'firebase_options.dart';
 
 void main()async{
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Tabs(),
+      home: LoginPage(),
     );
   }
 }

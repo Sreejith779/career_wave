@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-
 import '../../../resources/add_data.dart';
 
 part 'home_event.dart';
@@ -16,8 +14,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomePostJobEvent>(homePostJobEvent);
   }
 
-  FutureOr<void> homeInitialEvent(HomeInitialEvent event, Emitter<HomeState> emit) {
-
+  FutureOr<void> homeInitialEvent(
+      HomeInitialEvent event, Emitter<HomeState> emit) {
     emit(HomeLoadedState());
   }
 

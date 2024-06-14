@@ -12,7 +12,20 @@
           "package_name": "com.example.job_portel"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "926878754392-p7brm3qmda5uk6e8aa8p58791ujjjbok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.job_portel",
+            "certificate_hash": "de3cf939c14c784e0389917c1595de7c838fb013"
+          }
+        },
+        {
+          "client_id": "926878754392-qlt47qtbusu5u7ckngcpar38adkudf70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDD1PAmnOAlhfg0SjNqbOBmpBv6Dzecnig"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926878754392-qlt47qtbusu5u7ckngcpar38adkudf70.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "926878754392-clg4t7j1534dl113lbbovt6oli0k3g91.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.jobPortel"
+              }
+            }
+          ]
         }
       }
     }
