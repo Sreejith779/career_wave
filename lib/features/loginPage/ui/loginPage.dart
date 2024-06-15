@@ -61,9 +61,10 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           InkWell(
                             onTap: () async {
+
                                   await FirebaseService().signInWithGoogle();
 
-                             await    Navigator.pushReplacement(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Tabs()));

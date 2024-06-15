@@ -7,7 +7,7 @@ class FirebaseService {
 
   signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleSignInAccount =
+      final   googleSignInAccount =
           await googleSignIn.signIn();
 
       if (googleSignInAccount == null) {

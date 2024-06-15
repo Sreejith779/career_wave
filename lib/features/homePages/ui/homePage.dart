@@ -34,7 +34,12 @@ class _ReviewPageState extends State<ReviewPage> {
       },
       builder: (context, state) {
         switch(state.runtimeType){
-          case DataInitialLoadingState:
+          case DataLoadingState:
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+          case DataLoadedState:
+            final loadedState = state as DataLoadedState;
             return Scaffold(
               backgroundColor: const Color(0xFFFFFFFF),
               appBar: AppBar(
@@ -238,6 +243,7 @@ class _ReviewPageState extends State<ReviewPage> {
                             Expanded(
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
+                                itemCount: loadedState.courseData.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Container(
                                     margin: const EdgeInsets.all(10),
@@ -247,8 +253,34 @@ class _ReviewPageState extends State<ReviewPage> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
                                       color: Colors.deepPurple.withOpacity(0.6),
+                                      image: DecorationImage(image: NetworkImage(loadedState.courseData[index].image),opacity: 0.5)
                                     ),
-                                    child: const Text("dgh"),
+                                    child:   Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                         decoration: BoxDecoration(
+                                           borderRadius: BorderRadius.circular(15),
+                                           color: Colors.white.withOpacity(0.7),
+                                         ),
+                                            width: MediaQuery.of(context).size.width*0.5,
+                                            height: MediaQuery.of(context).size.height*0.03,
+                                            child: Center(child: Text(loadedState.courseData[index].subTitle,style:
+                                              Texts().Stext.copyWith(
+                                                fontWeight: FontWeight.w600
+                                              ),)),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(loadedState.courseData[index].title,
+                                          style: Texts().Htext.copyWith(color: Colors.white,
+                                          fontSize: 22),),
+                                        ),
+                                      ],
+                                    ),
                                   );
                                 },
                               ),
