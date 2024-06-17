@@ -93,7 +93,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                 height: MediaQuery.of(context).size.height*0.08,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: Colors.green,
+              color: Colors.green.withOpacity(0.9),
             ),
                 child: Center(child: Text("Apply",
                 style: Texts().Htext.copyWith(fontSize: 22,

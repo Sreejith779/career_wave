@@ -27,6 +27,8 @@ class _TabsState extends State<Tabs> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
+         height: 80,
+        elevation: 0,
         backgroundColor: Color(0xFFFFFFFF),
         selectedIndex: tabIndex,
         onDestinationSelected: (value) {
@@ -35,15 +37,28 @@ class _TabsState extends State<Tabs> {
           });
         },
         destinations:   [
-          NavigationDestination(icon: Image.asset("assets/home.png",
-          width: 25,height: 22,), label: 'Home'),
-          NavigationDestination(icon: Image.asset("assets/search.png",
-          width: 25,height: 22,), label: 'Search'),
-          NavigationDestination(icon: Image.asset("assets/job.png",
-          width: 25,height: 22,), label: 'Job'),
-          NavigationDestination(icon:  Image.asset("assets/person.png",
-          width: 25,
-          height: 22,), label: 'Person'),
+          NavigationDestination(
+              icon: Opacity(
+                opacity: 0.8,
+                child: Image.asset("assets/home.png",
+                          width: 25,height: 22, ),
+              ), label: 'Home'),
+          NavigationDestination(icon: Opacity(
+            opacity: 0.8,
+            child: Image.asset("assets/search.png",
+            width: 25,height: 22,),
+          ), label: 'Search'),
+          NavigationDestination(icon: Opacity(
+            opacity: 0.8,
+            child: Image.asset("assets/job.png",
+            width: 25,height: 22,),
+          ), label: 'Job'),
+          NavigationDestination(icon:  Opacity(
+            opacity: 0.8,
+            child: Image.asset("assets/person.png",
+            width: 25,
+            height: 22,),
+          ), label: 'Person'),
         ],
       ),
       body: tabs[tabIndex],

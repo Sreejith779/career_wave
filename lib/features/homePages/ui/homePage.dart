@@ -22,6 +22,7 @@ class ReviewPage extends StatefulWidget {
 
 class _ReviewPageState extends State<ReviewPage> {
   DataBloc dataBloc = DataBloc();
+  bool isSelect = true;
   @override
   void initState() {
     dataBloc.add(DataInitialLoadingState());
@@ -38,11 +39,12 @@ class _ReviewPageState extends State<ReviewPage> {
       builder: (context, state) {
         switch (state.runtimeType) {
           case DataLoadingState:
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           case DataLoadedState:
             final loadedState = state as DataLoadedState;
+
             return Scaffold(
               backgroundColor: const Color(0xFFFFFFFF),
               appBar: AppBar(
@@ -73,8 +75,9 @@ class _ReviewPageState extends State<ReviewPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                         backgroundColor: Colors.grey.withOpacity(0.2),
-                    child: IconButton(onPressed: (){}, icon: Image.asset("assets/save.png",
-                    width: 20,height: 22,color: Colors.black.withOpacity(0.7),)),),
+                    child: IconButton(onPressed: (){}, icon:
+                    Image.asset("assets/save.png",
+                    width: 20,height: 20,color: Colors.black.withOpacity(0.7),)),),
                   ),
                 ],
               ),
@@ -140,14 +143,33 @@ class _ReviewPageState extends State<ReviewPage> {
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+
                                           children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 190, top: 20),
+                                              child:
+                                              InkWell(
+                                                onTap: (){
+                                                  setState(() {
+                                                    isSelect = !isSelect;
+                                                  });
+                                                  // dataBloc.add(DataSaveEvent(saveData: data[index]));
+
+
+                                                },
+                                                child:
+                                               Image.asset(
+                                                 isSelect? "assets/save.png":"assets/fsave.png" ,
+                                                width: 20,
+                                                height: 20,
+                                                color: Colors.black.withOpacity(0.7),),
+                                              ),
+                                            ),
                                             Row(
                                               children: [
                                                 Padding(
                                                   padding: const EdgeInsets.only(
-                                                      left: 20, top: 20),
+                                                      left: 20, top: 50),
                                                   child: Container(
                                                     height: 45,
                                                     width: 50,
