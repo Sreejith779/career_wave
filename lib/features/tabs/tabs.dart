@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:job_portel/features/profilePage/ui/profilePage.dart';
@@ -33,11 +34,16 @@ class _TabsState extends State<Tabs> {
             tabIndex = value;
           });
         },
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.search), label: 'Search'),
-          NavigationDestination(icon: Icon(Icons.badge_rounded), label: 'Job'),
-          NavigationDestination(icon: Icon(Icons.person), label: 'Person'),
+        destinations:   [
+          NavigationDestination(icon: Image.asset("assets/home.png",
+          width: 25,height: 22,), label: 'Home'),
+          NavigationDestination(icon: Image.asset("assets/search.png",
+          width: 25,height: 22,), label: 'Search'),
+          NavigationDestination(icon: Image.asset("assets/job.png",
+          width: 25,height: 22,), label: 'Job'),
+          NavigationDestination(icon:  Image.asset("assets/person.png",
+          width: 25,
+          height: 22,), label: 'Person'),
         ],
       ),
       body: tabs[tabIndex],

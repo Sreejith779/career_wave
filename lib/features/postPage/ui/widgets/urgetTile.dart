@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../model/dataModel.dart';
 import '../../../utils/texts.dart';
 
 
 class UrgentTile extends StatelessWidget {
- final List<QueryDocumentSnapshot>data;
+ final List data;
   const UrgentTile({super.key, required this.data});
 
   @override
@@ -31,16 +32,16 @@ class UrgentTile extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(data[index]['Logo']),
+                        backgroundImage: NetworkImage(data[index].imageUrl),
                       ),
                     ),
-                    Expanded(child: Text(data[index]['Job Role'],style: Texts().Stext.copyWith(
+                    Expanded(child: Text(data[index].title,style: Texts().Stext.copyWith(
                         fontWeight: FontWeight.w500,
                       color: Colors.black.withOpacity(0.7)
                     ),))
                   ],
                 ),
-                Text("Rs ${data[index]['Salary']}",style: Texts().Stext.copyWith(
+                Text("Rs ${data[index].salary}",style: Texts().Stext.copyWith(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                   color: Colors.black.withOpacity(0.6)
@@ -51,7 +52,7 @@ class UrgentTile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(data[index]['Company Name'],style: Texts().Htext.copyWith(fontSize: 16,
+                    Text(data[index].company,style: Texts().Htext.copyWith(fontSize: 16,
                     color: Colors.black.withOpacity(0.7)),),
                     Container(
                       height: 25,

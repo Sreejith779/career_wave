@@ -3,9 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:job_portel/features/postDetailPage/ui/postDetailPage.dart';
 
 import 'package:job_portel/features/utils/texts.dart';
+import 'package:job_portel/model/dataModel.dart';
 import 'package:job_portel/resources/add_data.dart';
+import 'package:url_launcher/link.dart';
 
 import '../../postPage/ui/widgets/urgetTile.dart';
 import '../bloc/data_bloc.dart';
@@ -33,11 +36,11 @@ class _ReviewPageState extends State<ReviewPage> {
         // TODO: implement listener
       },
       builder: (context, state) {
-        switch(state.runtimeType){
+        switch (state.runtimeType) {
           case DataLoadingState:
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           case DataLoadedState:
             final loadedState = state as DataLoadedState;
             return Scaffold(
@@ -67,17 +70,12 @@ class _ReviewPageState extends State<ReviewPage> {
                 ),
                 actions: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Row(
-                      children: [
-                        CircleAvatar(backgroundColor: Colors.grey.withOpacity(0.2)),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        CircleAvatar(backgroundColor: Colors.grey.withOpacity(0.2)),
-                      ],
-                    ),
-                  )
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                        backgroundColor: Colors.grey.withOpacity(0.2),
+                    child: IconButton(onPressed: (){}, icon: Image.asset("assets/save.png",
+                    width: 20,height: 22,color: Colors.black.withOpacity(0.7),)),),
+                  ),
                 ],
               ),
               body: StreamBuilder<QuerySnapshot>(
@@ -91,7 +89,10 @@ class _ReviewPageState extends State<ReviewPage> {
                         child: CircularProgressIndicator(),
                       );
                     }
-                    final data = snapshot.data!.docs;
+                    final  List<DbModel>  data = snapshot.data!.docs.map((e) => DbModel(title: e['Job Role'],
+                        description: e['Description'], company: e['Company Name'], location: e['Location'],
+                        salary: e['Salary'], workType: e['Work-type'], imageUrl: e['Logo'], skills: e['Skills'])).toList();
+
                     return SingleChildScrollView(
                       // physics: NeverScrollableScrollPhysics(),
                       child: Container(
@@ -124,111 +125,124 @@ class _ReviewPageState extends State<ReviewPage> {
                                   scrollDirection: Axis.horizontal,
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
-                                    return Container(
-                                      margin: const EdgeInsets.all(5),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: Colors.deepPurple.withOpacity(0.1),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 20, top: 20),
-                                                child: Container(
-                                                  height: 45,
-                                                  width: 50,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius.circular(10),
-                                                      color: Colors.black,
-                                                      image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              data[index]['Logo']),
-                                                          fit: BoxFit.cover)),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10, top: 10),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      data[index]['Company Name'],
-                                                      style: Texts().Stext.copyWith(
-                                                          fontWeight:
-                                                          FontWeight.w500,
-                                                          fontSize: 15),
-                                                    ),
-                                                    Text(
-                                                      data[index]['Job Role'],
-                                                      style: Texts()
-                                                          .Htext
-                                                          .copyWith(fontSize: 17),
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10, left: 20),
-                                            child: Row(
+                                    return InkWell(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder:
+                                        (context)=>PostDetailPage(data:  data[index], )));
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(15),
+                                          color:
+                                              Colors.deepPurple.withOpacity(0.1),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Row(
                                               children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 100,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: Colors.white
-                                                        .withOpacity(0.7),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 20, top: 20),
+                                                  child: Container(
+                                                    height: 45,
+                                                    width: 50,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                10),
+                                                        color: Colors.black,
+                                                        image: DecorationImage(
+                                                            image: NetworkImage(
+                                                                data[index].imageUrl),
+                                                            fit: BoxFit.cover)),
                                                   ),
-                                                  child: Center(
-                                                      child: Text(
-                                                          data[index]['Salary'])),
                                                 ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Container(
-                                                  height: 30,
-                                                  width: 100,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(5),
-                                                    color: Colors.white
-                                                        .withOpacity(0.7),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 10, top: 10),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        data[index].company,
+                                                        style: Texts()
+                                                            .Stext
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 15),
+                                                      ),
+                                                      Text(
+                                                        data[index].title,
+                                                        style: Texts()
+                                                            .Htext
+                                                            .copyWith(
+                                                                fontSize: 17),
+                                                      )
+                                                    ],
                                                   ),
-                                                  child: Center(
-                                                      child: Text(data[index]
-                                                      ['Work-type'])),
-                                                ),
+                                                )
                                               ],
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Padding(
-                                            padding:
-                                            const EdgeInsets.only(left: 20),
-                                            child: Text(
-                                              data[index]['Location'],
-                                              style: Texts().Stext.copyWith(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10, left: 20),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    height: 30,
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      color: Colors.white
+                                                          .withOpacity(0.7),
+                                                    ),
+                                                    child: Center(
+                                                        child: Text(data[index].salary)),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Container(
+                                                    height: 30,
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      color: Colors.white
+                                                          .withOpacity(0.7),
+                                                    ),
+                                                    child: Center(
+                                                        child: Text(data[index].workType)),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          )
-                                        ],
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(left: 20),
+                                              child: Text(
+                                                data[index].location,
+                                                style: Texts().Stext.copyWith(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     );
                                   }),
@@ -245,42 +259,79 @@ class _ReviewPageState extends State<ReviewPage> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: loadedState.courseData.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    margin: const EdgeInsets.all(10),
-                                    height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                    width: MediaQuery.of(context).size.width * 0.8,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: Colors.deepPurple.withOpacity(0.6),
-                                      image: DecorationImage(image: NetworkImage(loadedState.courseData[index].image),opacity: 0.5)
-                                    ),
-                                    child:   Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                         decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(15),
-                                           color: Colors.white.withOpacity(0.7),
-                                         ),
-                                            width: MediaQuery.of(context).size.width*0.5,
-                                            height: MediaQuery.of(context).size.height*0.03,
-                                            child: Center(child: Text(loadedState.courseData[index].subTitle,style:
-                                              Texts().Stext.copyWith(
-                                                fontWeight: FontWeight.w600
-                                              ),)),
+                                  return Link(
+                                    target: LinkTarget.blank,
+                                    uri: Uri.parse(
+                                        loadedState.courseData[index].webUrl),
+                                    builder: (BuildContext context,FollowLink? followLink) {
+                                      return InkWell(
+                                        onTap: followLink,
+                                        child: Container(
+                                          margin: const EdgeInsets.all(10),
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  0.4,
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                                  0.8,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: Colors.deepPurple
+                                                  .withOpacity(0.6),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(loadedState
+                                                      .courseData[index].image),
+                                                  opacity: 0.5,
+                                              fit: BoxFit.cover),),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(15),
+                                                    color: Colors.white
+                                                        .withOpacity(0.7),
+                                                  ),
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.3,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.03,
+                                                  child: Center(
+                                                      child: Text(
+                                                    loadedState.courseData[index]
+                                                        .subTitle,
+                                                    style: Texts().Stext.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  )),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  loadedState
+                                                      .courseData[index].title,
+                                                  style: Texts().Htext.copyWith(
+                                                      color: Colors.white,
+                                                      fontSize: 22),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(loadedState.courseData[index].title,
-                                          style: Texts().Htext.copyWith(color: Colors.white,
-                                          fontSize: 22),),
-                                        ),
-                                      ],
-                                    ),
+                                      );
+                                    },
                                   );
                                 },
                               ),
@@ -295,7 +346,6 @@ class _ReviewPageState extends State<ReviewPage> {
           default:
             return const SizedBox();
         }
-
       },
     );
   }
