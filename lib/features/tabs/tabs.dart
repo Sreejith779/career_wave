@@ -1,8 +1,10 @@
+
+
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:job_portel/features/profilePage/ui/profilePage.dart';
-
 
 import '../homePages/ui/homePage.dart';
 import '../postPage/ui/postPage.dart';
@@ -16,52 +18,42 @@ class Tabs extends StatefulWidget {
 }
 
 class _TabsState extends State<Tabs> {
-  List tabs = [
-    ReviewPage(),
-    SearchPage(),
-    HomePage(),
-  ProfilePage()
-  ];
+  List tabs = [ReviewPage(), SearchPage(), HomePage(), ProfilePage()];
   int tabIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-         height: 80,
-        elevation: 0,
-        backgroundColor: Color(0xFFFFFFFF),
-        selectedIndex: tabIndex,
-        onDestinationSelected: (value) {
-          setState(() {
-            tabIndex = value;
-          });
-        },
-        destinations:   [
-          NavigationDestination(
-              icon: Opacity(
-                opacity: 0.8,
-                child: Image.asset("assets/home.png",
-                          width: 25,height: 22, ),
-              ), label: 'Home'),
-          NavigationDestination(icon: Opacity(
-            opacity: 0.8,
-            child: Image.asset("assets/search.png",
-            width: 25,height: 22,),
-          ), label: 'Search'),
-          NavigationDestination(icon: Opacity(
-            opacity: 0.8,
-            child: Image.asset("assets/job.png",
-            width: 25,height: 22,),
-          ), label: 'Job'),
-          NavigationDestination(icon:  Opacity(
-            opacity: 0.8,
-            child: Image.asset("assets/person.png",
-            width: 25,
-            height: 22,),
-          ), label: 'Person'),
-        ],
-      ),
-      body: tabs[tabIndex],
+        extendBody: true, body: tabs[tabIndex],
+        bottomNavigationBar: DotNavigationBar(
+            itemPadding: EdgeInsets.all(16),
+            marginR: EdgeInsets.symmetric(horizontal: 60, vertical: 0),
+            paddingR: EdgeInsets.symmetric(horizontal: 6, vertical: 0),
+          splashColor: Colors.green.withOpacity(0.5),
+          splashBorderRadius: 20,
+          backgroundColor: Colors.white,
+
+
+                 enableFloatingNavBar:  true,
+            curve: Curves.easeIn,
+
+
+
+            currentIndex: tabIndex,
+            onTap: (value){
+              setState(() {
+                tabIndex = value;
+              });
+            },
+
+
+
+            items: [
+              DotNavigationBarItem(icon: Image.asset("assets/home.png",height: 20,width: 20,), ),
+              DotNavigationBarItem(icon: Image.asset("assets/search.png",height: 20,width: 20,), ),
+              DotNavigationBarItem(icon: Image.asset("assets/job.png",height: 20,width: 20,), ),
+              DotNavigationBarItem(icon: Image.asset("assets/person.png",height: 20,width: 20,),),
+        ])
     );
   }
 }

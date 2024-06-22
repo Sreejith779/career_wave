@@ -11,6 +11,7 @@ class DbModel {
   final String imageUrl;
   final String skills;
 
+
   DbModel(
       {required this.title,
       required this.description,

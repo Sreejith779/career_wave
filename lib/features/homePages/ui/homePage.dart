@@ -6,8 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:job_portel/features/postDetailPage/ui/postDetailPage.dart';
 
 import 'package:job_portel/features/utils/texts.dart';
-import 'package:job_portel/model/dataModel.dart';
-import 'package:job_portel/resources/add_data.dart';
+
 import 'package:url_launcher/link.dart';
 
 import '../../postPage/ui/widgets/urgetTile.dart';
@@ -22,7 +21,7 @@ class ReviewPage extends StatefulWidget {
 
 class _ReviewPageState extends State<ReviewPage> {
   DataBloc dataBloc = DataBloc();
-  bool isSelect = true;
+
   @override
   void initState() {
     dataBloc.add(DataInitialLoadingState());
@@ -44,155 +43,171 @@ class _ReviewPageState extends State<ReviewPage> {
             );
           case DataLoadedState:
             final loadedState = state as DataLoadedState;
+            final isSelect =
+                List<bool>.filled(loadedState.jobData!.length, true);
 
             return Scaffold(
-              backgroundColor: const Color(0xFFFFFFFF),
-              appBar: AppBar(
                 backgroundColor: const Color(0xFFFFFFFF),
-                leading: const Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: CircleAvatar(
-                    minRadius: 2,
-                  ),
-                ),
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Robin K Philiph",
-                      style: Texts()
-                          .Htext
-                          .copyWith(fontSize: 18, fontWeight: FontWeight.w600),
+                appBar: AppBar(
+                  backgroundColor: const Color(0xFFFFFFFF),
+                  leading: const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage("assets/person_bg.png"),
+                      minRadius: 2,
                     ),
-                    Text(
-                      "Bangalore,Karnataka",
-                      style: Texts().Stext.copyWith(fontSize: 15),
+                  ),
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Robin K Philiph",
+                        style: Texts().Htext.copyWith(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        "Bangalore,Karnataka",
+                        style: Texts().Stext.copyWith(fontSize: 15),
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey.withOpacity(0.2),
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: Image.asset(
+                              "assets/save.png",
+                              width: 20,
+                              height: 20,
+                              color: Colors.black.withOpacity(0.7),
+                            )),
+                      ),
                     ),
                   ],
                 ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                        backgroundColor: Colors.grey.withOpacity(0.2),
-                    child: IconButton(onPressed: (){}, icon:
-                    Image.asset("assets/save.png",
-                    width: 20,height: 20,color: Colors.black.withOpacity(0.7),)),),
-                  ),
-                ],
-              ),
-              body: StreamBuilder<QuerySnapshot>(
-                  stream: StoreData().getData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      Text("Error : ${snapshot.error}");
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    final  List<DbModel>  data = snapshot.data!.docs.map((e) => DbModel(title: e['Job Role'],
-                        description: e['Description'], company: e['Company Name'], location: e['Location'],
-                        salary: e['Salary'], workType: e['Work-type'], imageUrl: e['Logo'], skills: e['Skills'])).toList();
-
-                    return SingleChildScrollView(
-                      // physics: NeverScrollableScrollPhysics(),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20, left: 20),
-                              child: Text(
-                                "Urgently Need",
-                                style: Texts().Htext.copyWith(fontSize: 18),
-                              ),
-                            ),
-                            UrgentTile(
-                              data: data,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20, top: 5),
-                              child: Text(
-                                "Recommendationss",
-                                style: Texts().Htext,
-                              ),
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.35,
-                              width: MediaQuery.of(context).size.width * 1.5,
-                              color: Colors.white.withOpacity(0.4),
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: data.length,
-                                  itemBuilder: (context, index) {
+                body: SingleChildScrollView(
+                  // physics: NeverScrollableScrollPhysics(),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, left: 20),
+                          child: Text(
+                            "Urgently Need",
+                            style: Texts().Htext.copyWith(fontSize: 18),
+                          ),
+                        ),
+                        UrgentTile(
+                          data: loadedState.jobData!,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, top: 5),
+                          child: Text(
+                            "Recommendationss",
+                            style: Texts().Htext,
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.35,
+                          width: MediaQuery.of(context).size.width * 1.5,
+                          color: Colors.white.withOpacity(0.4),
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: loadedState.jobData!.length,
+                              itemBuilder: (context, index) {
+                                return StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      void Function(void Function()) setState) {
                                     return InkWell(
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder:
-                                        (context)=>PostDetailPage(data:  data[index], )));
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PostDetailPage(
+                                                      data: loadedState
+                                                          .jobData![index],
+                                                    )));
                                       },
                                       child: Container(
                                         margin: const EdgeInsets.all(5),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15),
-                                          color:
-                                              Colors.deepPurple.withOpacity(0.1),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.deepPurple
+                                              .withOpacity(0.1),
                                         ),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 190, top: 20),
-                                              child:
-                                              InkWell(
-                                                onTap: (){
+                                              padding: const EdgeInsets.only(
+                                                  left: 190, top: 20),
+                                              child: InkWell(
+                                                onTap: () {
                                                   setState(() {
-                                                    isSelect = !isSelect;
+                                                    isSelect[index] =
+                                                        !isSelect[index];
+                                                    dataBloc.add(DataSaveEvent(
+                                                      saveData: loadedState
+                                                          .jobData![index],
+                                                    ));
                                                   });
-                                                  // dataBloc.add(DataSaveEvent(saveData: data[index]));
-
 
                                                 },
-                                                child:
-                                               Image.asset(
-                                                 isSelect? "assets/save.png":"assets/fsave.png" ,
-                                                width: 20,
-                                                height: 20,
-                                                color: Colors.black.withOpacity(0.7),),
+                                                child: Image.asset(
+                                                  isSelect[index]
+                                                      ? "assets/save.png"
+                                                      : "assets/fsave.png",
+                                                  width: 20,
+                                                  height: 20,
+                                                  color: Colors.black
+                                                      .withOpacity(0.7),
+                                                ),
                                               ),
                                             ),
                                             Row(
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 20, top: 50),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 20, top: 50),
                                                   child: Container(
                                                     height: 45,
                                                     width: 50,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
+                                                            BorderRadius
+                                                                .circular(10),
                                                         color: Colors.black,
                                                         image: DecorationImage(
                                                             image: NetworkImage(
-                                                                data[index].imageUrl),
+                                                                loadedState
+                                                                    .jobData![
+                                                                        index]
+                                                                    .imageUrl),
                                                             fit: BoxFit.cover)),
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 10, top: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10, top: 10),
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
-                                                        data[index].company,
+                                                        loadedState
+                                                            .jobData![index]
+                                                            .company,
                                                         style: Texts()
                                                             .Stext
                                                             .copyWith(
@@ -202,7 +217,9 @@ class _ReviewPageState extends State<ReviewPage> {
                                                                 fontSize: 15),
                                                       ),
                                                       Text(
-                                                        data[index].title,
+                                                        loadedState
+                                                            .jobData![index]
+                                                            .title,
                                                         style: Texts()
                                                             .Htext
                                                             .copyWith(
@@ -229,7 +246,9 @@ class _ReviewPageState extends State<ReviewPage> {
                                                           .withOpacity(0.7),
                                                     ),
                                                     child: Center(
-                                                        child: Text(data[index].salary)),
+                                                        child: Text(loadedState
+                                                            .jobData![index]
+                                                            .salary)),
                                                   ),
                                                   const SizedBox(
                                                     width: 10,
@@ -245,7 +264,9 @@ class _ReviewPageState extends State<ReviewPage> {
                                                           .withOpacity(0.7),
                                                     ),
                                                     child: Center(
-                                                        child: Text(data[index].workType)),
+                                                        child: Text(loadedState
+                                                            .jobData![index]
+                                                            .workType)),
                                                   ),
                                                 ],
                                               ),
@@ -254,115 +275,122 @@ class _ReviewPageState extends State<ReviewPage> {
                                               height: 5,
                                             ),
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.only(left: 20),
+                                              padding: const EdgeInsets.only(
+                                                  left: 20),
                                               child: Text(
-                                                data[index].location,
+                                                loadedState
+                                                    .jobData![index].location,
                                                 style: Texts().Stext.copyWith(
                                                     fontSize: 15,
-                                                    fontWeight: FontWeight.w500),
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                               ),
                                             )
                                           ],
                                         ),
                                       ),
                                     );
-                                  }),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20, top: 20),
-                              child: Text(
-                                "Certified Courses",
-                                style: Texts().Htext,
-                              ),
-                            ),
-                            Expanded(
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: loadedState.courseData.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Link(
-                                    target: LinkTarget.blank,
-                                    uri: Uri.parse(
-                                        loadedState.courseData[index].webUrl),
-                                    builder: (BuildContext context,FollowLink? followLink) {
-                                      return InkWell(
-                                        onTap: followLink,
-                                        child: Container(
-                                          margin: const EdgeInsets.all(10),
-                                          height:
-                                              MediaQuery.of(context).size.height *
-                                                  0.4,
-                                          width:
-                                              MediaQuery.of(context).size.width *
-                                                  0.8,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              color: Colors.deepPurple
-                                                  .withOpacity(0.6),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(loadedState
-                                                      .courseData[index].image),
-                                                  opacity: 0.5,
-                                              fit: BoxFit.cover),),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(15),
-                                                    color: Colors.white
-                                                        .withOpacity(0.7),
-                                                  ),
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.3,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.03,
-                                                  child: Center(
-                                                      child: Text(
-                                                    loadedState.courseData[index]
-                                                        .subTitle,
-                                                    style: Texts().Stext.copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  )),
-                                                ),
+                                  },
+                                );
+                              }),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, top: 20),
+                          child: Text(
+                            "Certified Courses",
+                            style: Texts().Htext,
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: loadedState.courseData.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Link(
+                                target: LinkTarget.blank,
+                                uri: Uri.parse(
+                                    loadedState.courseData[index].webUrl),
+                                builder: (BuildContext context,
+                                    FollowLink? followLink) {
+                                  return InkWell(
+                                    onTap: followLink,
+                                    child: Container(
+                                      margin: const EdgeInsets.all(10),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.4,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color:
+                                            Colors.deepPurple.withOpacity(0.6),
+                                        image: DecorationImage(
+                                            image: NetworkImage(loadedState
+                                                .courseData[index].image),
+                                            opacity: 0.5,
+                                            fit: BoxFit.cover),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                color: Colors.white
+                                                    .withOpacity(0.7),
                                               ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  loadedState
-                                                      .courseData[index].title,
-                                                  style: Texts().Htext.copyWith(
-                                                      color: Colors.white,
-                                                      fontSize: 22),
-                                                ),
-                                              ),
-                                            ],
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.03,
+                                              child: Center(
+                                                  child: Text(
+                                                loadedState
+                                                    .courseData[index].subTitle,
+                                                style: Texts().Stext.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              )),
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              loadedState
+                                                  .courseData[index].title,
+                                              style: Texts().Htext.copyWith(
+                                                  color: Colors.white,
+                                                  fontSize: 22),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   );
                                 },
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ));
+
+          case DataErrorState:
+            return Scaffold(
+              body: Center(
+                child: Text("Something went wrong"),
+              ),
             );
 
           default:
