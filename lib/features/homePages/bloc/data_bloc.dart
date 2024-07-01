@@ -58,8 +58,13 @@ class DataBloc extends Bloc<DataEvent, DataState> {
       "description": event.saveData.description,
       "salary": event.saveData.salary,
       "location": event.saveData.skills,
-      "workType": event.saveData.workType
+      "workType": event.saveData.workType,
+          "skills":event.saveData.skills
     });
+
+
+
+
     List<CourseModel> courseData = [];
     QuerySnapshot courseSnapshot =
         await FirebaseFirestore.instance.collection("courses").get();
@@ -70,9 +75,7 @@ class DataBloc extends Bloc<DataEvent, DataState> {
             webUrl: e['website'],
             image: e['image']))
         .toList());
-    emit(DataSaveState());
-    emit(DataLoadedState(jobData: jobData,
-      courseData: courseData,
-    ));
+
+
   }
 }

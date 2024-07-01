@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:job_portel/features/postDetailPage/ui/postDetailPage.dart';
+import 'package:job_portel/features/postPage/%20bloc/home_bloc.dart';
 
 import 'package:job_portel/features/utils/texts.dart';
 
 import 'package:url_launcher/link.dart';
 
 import '../../postPage/ui/widgets/urgetTile.dart';
+import '../../savedPage/ui/savedPage.dart';
 import '../bloc/data_bloc.dart';
 
 class ReviewPage extends StatefulWidget {
@@ -21,7 +23,7 @@ class ReviewPage extends StatefulWidget {
 
 class _ReviewPageState extends State<ReviewPage> {
   DataBloc dataBloc = DataBloc();
-
+  late List<bool> isSaved;
   @override
   void initState() {
     dataBloc.add(DataInitialLoadingState());
@@ -43,8 +45,7 @@ class _ReviewPageState extends State<ReviewPage> {
             );
           case DataLoadedState:
             final loadedState = state as DataLoadedState;
-            final isSelect =
-                List<bool>.filled(loadedState.jobData!.length, true);
+            isSaved = List.filled(loadedState.jobData!.length, false);
 
             return Scaffold(
                 backgroundColor: const Color(0xFFFFFFFF),
@@ -77,7 +78,10 @@ class _ReviewPageState extends State<ReviewPage> {
                       child: CircleAvatar(
                         backgroundColor: Colors.grey.withOpacity(0.2),
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                                  SavedPage()));
+                            },
                             icon: Image.asset(
                               "assets/save.png",
                               width: 20,
@@ -152,19 +156,23 @@ class _ReviewPageState extends State<ReviewPage> {
                                               child: InkWell(
                                                 onTap: () {
                                                   setState(() {
-                                                    isSelect[index] =
-                                                        !isSelect[index];
+
+                                                    isSaved[index] = !isSaved[index];
+                                                  });
+
                                                     dataBloc.add(DataSaveEvent(
                                                       saveData: loadedState
                                                           .jobData![index],
                                                     ));
-                                                  });
+
+
+
 
                                                 },
                                                 child: Image.asset(
-                                                  isSelect[index]
-                                                      ? "assets/save.png"
-                                                      : "assets/fsave.png",
+                                                  isSaved[index]
+                                                      ? "assets/fsave.png"
+                                                      : "assets/save.png",
                                                   width: 20,
                                                   height: 20,
                                                   color: Colors.black
@@ -394,7 +402,9 @@ class _ReviewPageState extends State<ReviewPage> {
             );
 
           default:
-            return const SizedBox();
+            return const SizedBox(
+              child: Text("Error"),
+            );
         }
       },
     );

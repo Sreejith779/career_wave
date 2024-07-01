@@ -47,6 +47,7 @@ dependencies:
   google_sign_in: ^6.2.1
   url_launcher: ^6.3.0
   dot_navigation_bar: ^1.0.2
+  speech_to_text: ^6.6.2
 
 dev_dependencies:
   flutter_test:
